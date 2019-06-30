@@ -38,6 +38,28 @@ client.connect((err) => {
     const db = client.db(dbName);
     connectionMessage();
     // updateUserName('James', 'Nick', db);
+    db.collection('users').updateOne({ name: 'Nick' }, {
+        $set: {
+            age: 35
+        }
+    })
+    .then((result) => {
+        console.log(result.modifiedCount);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
+    db.collection('users').findOne({name: 'Nick'})
+        .then((user) => {
+            console.log(user)
+        })
+        .catch((err) => {
+            console.log('could not find the user and there was some error ', err.code)
+        })
+       
+
+
 
 
 
