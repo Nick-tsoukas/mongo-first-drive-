@@ -7,14 +7,11 @@ db.collection('some-collection').insertOne()
 
 ========= Read Operations ================
 db.collection('some-collection').find({pass_options: 'here'});
-db.collection('some-collection).findOne({_id: new ObjectId("somecodehere")})
+db.collection('some-collection).findOne({_id: new ObjectId("somecodehere")});
 
-what are object ids
-GUI id global unique identify 
-ability to scale well 
-no change of collision from ID 
-We can generate are own IDs
-
+========= Mongodb Operators =============== 
+currentDate, inc, min, max, mul, rename, set, setOnInsert, unset
+=========
 
 notes 
 We can use the timestamp to check if the database was created for the day.
@@ -28,16 +25,11 @@ This way we do not keep on hitting the api
 const createUser = require('./utils/createUser');
 const connectionMessage = require('./utils/connectionMessage'); // simply logs that the connection was successful 
 const updateUserName = require('./utils/changeUserName');
-const {
-    MongoClient,
-    ObjectID
-} = require('mongodb');
+const { MongoClient, ObjectID } = require('mongodb');
 
 const url = 'mongodb://127.0.0.1:27017';
 const dbName = 'task-app';
-const client = new MongoClient(url, {
-    useNewUrlParser: true
-});
+const client = new MongoClient(url, { useNewUrlParser: true });
 
 
 
@@ -45,8 +37,7 @@ client.connect((err) => {
     if (err) throw err;
     const db = client.db(dbName);
     connectionMessage();
-
-    updateUserName('James', 'Nick', db);
+    // updateUserName('James', 'Nick', db);
 
 
 
