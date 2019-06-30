@@ -37,40 +37,37 @@ const dbName = 'task-app';
 const client = new MongoClient(url, {
     useNewUrlParser: true
 });
-//  helpers ============
-// This will return an ... so you don't have to type out the new ObjectID every time and litter up the code 
-const id = (id) => {
-    return new ObjectID(id);
-}
 
-/**
- * finds and then logs a user for the collection 
- * @param {string} name 
- */
-const user = function findUser(name, db) {
-    console.log(`Looking for ${name}...`);
-    db.collection('users').findOne({
-            name: name
-        })
-        .then((user) => {
-            if(!user){
-                console.log(`Could not find the user ${name}`);
+
+function updateUserName(userName, change, db) {
+    db.collection('users').updateOne({
+            name: userName
+        }, {
+            $set: {
+                name: change
             }
-            console.log(`We Found the`, user);
-            return user;
+        })
+        .then((result) => {
+            db.collection('users').findOne({
+                    name: change
+                })
+                .then((user) => {
+                    console.log(user)
+                })
         })
         .catch((err) => {
-            if(err) console.log(err);
+            console.log(err);
         })
 }
+
 
 client.connect((err) => {
     if (err) throw err;
     const db = client.db(dbName);
     connectionMessage();
 
-    user('Nick',db);
-   
+    updateUserName('Mike', 'Nick', db);
+
 
 
 
