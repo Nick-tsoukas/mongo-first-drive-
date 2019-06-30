@@ -43,19 +43,27 @@ client.connect((err) => {
     if (err) throw err;
     const db = client.db(dbName);
     connectionMessage();
-    // updateProp('users','name', 'Philly', 'Mr.Nick', db);
-    db.collection('users').findOne({
-            name: 'Mr.Nick'
-        })
-        .then((user) => {
-            if (user) {
-                console.log(user);
-            } else {
-                throw new Error
-            }
-        })
-        .catch((err) => {
-            console.log(err)
-        })
 
-});
+   
+    db.collection('tasks').find()
+    .toArray()
+    .then((data) => {
+        return data;
+    }).then((data) => {
+        data.forEach((task) => {
+            db.collection('tasks').deleteOne(task)
+            .then((results) => {
+                console.log(results.deletedCount)
+            }).catch((err) => {
+                console.log(err);
+            })
+        })
+    }).catch((err) => {
+        console.log(err)
+    })
+    
+    })
+
+
+    
+    
