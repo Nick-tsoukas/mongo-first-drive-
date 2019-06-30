@@ -25,6 +25,7 @@ This way we do not keep on hitting the api
 const createUser = require('./utils/createUser');
 const connectionMessage = require('./utils/connectionMessage'); // simply logs that the connection was successful 
 const updateUserName = require('./utils/changeUserName');
+const updateProp = require('./utils/updateProp');
 const {
     MongoClient,
     ObjectID
@@ -42,23 +43,19 @@ client.connect((err) => {
     if (err) throw err;
     const db = client.db(dbName);
     connectionMessage();
-    // updateUserName('James', 'Nick', db);
-    db.collection('users').updateOne({
-        name: 'Nick'
-    }, {
-        $inc: {
-            age: -1
-        }
-    })
-
+    // updateProp('users','name', 'Philly', 'Mr.Nick', db);
     db.collection('users').findOne({
-            name: 'Nick'
+            name: 'Mr.Nick'
         })
         .then((user) => {
-            console.log(user)
+            if (user) {
+                console.log(user);
+            } else {
+                throw new Error
+            }
         })
         .catch((err) => {
-            console.log('could not find the user and there was some error ', err.code)
+            console.log(err)
         })
 
 });
