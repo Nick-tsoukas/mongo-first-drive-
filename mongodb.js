@@ -44,26 +44,15 @@ client.connect((err) => {
     const db = client.db(dbName);
     connectionMessage();
 
-   
-    db.collection('tasks').find()
-    .toArray()
-    .then((data) => {
-        return data;
-    }).then((data) => {
-        data.forEach((task) => {
-            db.collection('tasks').deleteOne(task)
-            .then((results) => {
-                console.log(results.deletedCount)
-            }).catch((err) => {
-                console.log(err);
-            })
-        })
-    }).catch((err) => {
-        console.log(err)
-    })
-    
+    db.collection('data_test').find().toArray((err, result) => {
+       if(err) {
+           console.log(err);
+       }
+       result.forEach((data, index) => {
+            console.log(`number ${index} ........ ${JSON.stringify(data)}`);
+       })
     })
 
 
-    
-    
+
+})
