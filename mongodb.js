@@ -25,11 +25,16 @@ This way we do not keep on hitting the api
 const createUser = require('./utils/createUser');
 const connectionMessage = require('./utils/connectionMessage'); // simply logs that the connection was successful 
 const updateUserName = require('./utils/changeUserName');
-const { MongoClient, ObjectID } = require('mongodb');
+const {
+    MongoClient,
+    ObjectID
+} = require('mongodb');
 
 const url = 'mongodb://127.0.0.1:27017';
 const dbName = 'task-app';
-const client = new MongoClient(url, { useNewUrlParser: true });
+const client = new MongoClient(url, {
+    useNewUrlParser: true
+});
 
 
 
@@ -38,31 +43,22 @@ client.connect((err) => {
     const db = client.db(dbName);
     connectionMessage();
     // updateUserName('James', 'Nick', db);
-    db.collection('users').updateOne({ name: 'Nick' }, {
-        $set: {
-            age: 35
+    db.collection('users').updateOne({
+        name: 'Nick'
+    }, {
+        $inc: {
+            age: -1
         }
     })
-    .then((result) => {
-        console.log(result.modifiedCount);
-    })
-    .catch((err) => {
-        console.log(err);
-    });
 
-    db.collection('users').findOne({name: 'Nick'})
+    db.collection('users').findOne({
+            name: 'Nick'
+        })
         .then((user) => {
             console.log(user)
         })
         .catch((err) => {
             console.log('could not find the user and there was some error ', err.code)
         })
-       
-
-
-
-
-
-
 
 });
